@@ -13,7 +13,7 @@ Librato
     $client = new Metrix();
     $client->setConfig(array(
         'backend' => 'librato',
-        'backend_opts' => array(
+        'opts' => array(
           'email' => 'test@user.com',
           'token' => '123'
           )

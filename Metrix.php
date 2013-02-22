@@ -19,12 +19,12 @@ class Metrix {
     /**
      * @param array $conf configuration hash:
      *   string backend the metrics service you want to communicate with
-     *   string backend_opts options for which metric service you choose
+     *   string opts options to pass backend
      *   string prefix key prefix to attach to individual keys before reporting
      */
     public function setConfig($conf) {
         $class = $conf['backend'];
-        $options = $conf['backend_opts'];
+        $options = $conf['opts'];
         $klass = "Metrix\\Backend\\" . ucfirst($class);
         $this->key_prefix = $conf['prefix'];
 
