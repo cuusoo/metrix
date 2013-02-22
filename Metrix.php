@@ -14,7 +14,7 @@ class Metrix {
     /**
      * Prefix to add to key names
      */
-    protected $key_prefix;
+    protected $prefix;
 
     /**
      * @param array $conf configuration hash:
@@ -26,7 +26,7 @@ class Metrix {
         $class = $conf['backend'];
         $options = $conf['opts'];
         $klass = "Metrix\\Backend\\" . ucfirst($class);
-        $this->key_prefix = $conf['prefix'];
+        $this->prefix = $conf['prefix'];
 
         if (class_exists($klass)) {
             $this->backend = new $klass($options);
@@ -39,7 +39,7 @@ class Metrix {
      * @param array $metrics
      */
     public function count(array $metrics) {
-        $metrics = $this->prefixKeyNames($metrics, $this->key_prefix);
+        $metrics = $this->prefixKeyNames($metrics, $this->prefix);
         $this->backend->count($metrics);
     }
 
@@ -47,7 +47,7 @@ class Metrix {
      * @param array $metrics
      */
     public function gauge(array $metrics) {
-        $metrics = $this->prefixKeyNames($metrics, $this->key_prefix);
+        $metrics = $this->prefixKeyNames($metrics, $this->prefix);
         $this->backend->gauge($metrics);
     }
 
