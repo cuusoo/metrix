@@ -22,7 +22,7 @@ class Metrix {
      *   array opts options to pass backend
      *   string prefix key prefix to attach to individual keys before reporting
      */
-    public function setConfig($conf) {
+    public function config($conf) {
         $class = $conf['backend'];
         $options = $conf['opts'];
         $klass = "Metrix\\Backend\\" . ucfirst($class);

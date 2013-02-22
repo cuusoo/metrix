@@ -11,7 +11,7 @@ Librato
 -------
 
     $client = new Metrix();
-    $client->setConfig(array(
+    $client->config(array(
         'backend' => 'librato',
         'opts' => array(
           'email' => 'test@user.com',
@@ -26,7 +26,7 @@ Sending Metrics
     use Metrix;
 
     $client = new Metrix();
-    $client->setConfig(...);
+    $client->config(...);
 
     $client->count(
         'key1-counter' => 1,
