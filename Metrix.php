@@ -19,7 +19,7 @@ class Metrix {
     /**
      * @param array $conf configuration hash:
      *   string backend the metrics service you want to communicate with
-     *   string opts options to pass backend
+     *   array opts options to pass backend
      *   string prefix key prefix to attach to individual keys before reporting
      */
     public function setConfig($conf) {
