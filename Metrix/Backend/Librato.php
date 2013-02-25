@@ -8,7 +8,7 @@ use \HTTP_Request2 as HTTPClient;
 use \HTTP_Request2_Response as HttpResponse;
 use \HTTP_Request2_Exception as HttpException;
 
-class Librato implements \Metrix\Backend {
+class Librato implements \Metrix\BackendInterface {
     const API_ENDPOINT = 'https://metrics-api.librato.com/v1/metrics';
 
     /**

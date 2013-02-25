@@ -1,7 +1,7 @@
 <?php
 namespace Metrix;
 
-interface Backend {
+interface BackendInterface {
     /**
      * <code>
      *   $metrics = array(

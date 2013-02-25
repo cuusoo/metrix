@@ -1,7 +1,7 @@
 <?php
 require_once realpath(__DIR__.'/Metrix/Version.php');
 require_once realpath(__DIR__.'/Metrix/Exception.php');
-require_once realpath(__DIR__.'/Metrix/Backend.php');
+require_once realpath(__DIR__.'/Metrix/BackendInterface.php');
 
 use \Metrix\Exception;
 
