@@ -66,7 +66,6 @@ class Librato implements \Metrix\BackendInterface {
             throw new Exception("HTTP error: " . $e->getMessage());
         }
 
-        echo $response->getBody();
         return $response->getStatus() == 200;
     }
 
