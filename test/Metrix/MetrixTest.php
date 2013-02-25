@@ -12,8 +12,14 @@ class MetrixTest extends PHPUnit_Framework_TestCase {
         unset($this->client);
     }
 
-    public function testCount() { }
-
-    public function testGauge() { }
+    public function testSetConfig() {
+        $this->client->config(array(
+            'backend' => 'librato',
+            'opts' => array(
+                'email' => '123',
+                'token' => '123'
+            )
+        ));
+    }
 }
 ?>
