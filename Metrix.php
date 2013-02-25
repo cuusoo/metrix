@@ -25,7 +25,9 @@ class Metrix {
     public function config($conf) {
         $options = $conf['opts'];
         $class = "Metrix\\Backend\\" . ucfirst($conf['backend']);
-        $this->prefix = $conf['prefix'];
+
+        if (isset($conf['prefix']))
+            $this->prefix = $conf['prefix'];
 
         if (class_exists($class)) {
             $this->backend = new $class($options);
