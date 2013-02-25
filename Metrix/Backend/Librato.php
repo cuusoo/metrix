@@ -23,10 +23,10 @@ class Librato implements \Metrix\BackendInterface {
      */
     public function __construct(array $options) {
         if (!isset($options['email'])) {
-            throw new Exception("Librato requires `email` parameter");
+            throw new \InvalidArgumentException("Librato requires `email` parameter");
         }
         if (!isset($options['token'])) {
-            throw new Exception("Librato requires `token` parameter");
+            throw new \InvalidArgumentException("Librato requires `token` parameter");
         }
 
         $email= $options['email'];
