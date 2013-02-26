@@ -65,7 +65,13 @@ class Metrix {
     }
 
     /**
-     * @param array $metrics
+     * @param string $metric
+     * @param integer $value
+     */
+    public function count($metric, $value) {
+        $prefixed = $this->prefixKeyNames($metric, $this->prefix);
+        $this->backend->count($prefixed);
+    }
      */
     public function gauge($metric, $value) {
         $prefixed = $this->prefixKeyNames($metric, $this->prefix);

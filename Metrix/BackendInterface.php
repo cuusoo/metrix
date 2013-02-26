@@ -27,6 +27,17 @@ interface BackendInterface {
     public function decrement($metrics, $delta);
 
     /**
+     * Send absolute counter given a key
+     *
+     * <code>
+     *   $metric = 'key1'
+     * </code>
+     *
+     * @param string $metrics
+     * @param integer $value
+     */
+    public function count($metric, $value);
+
      * <code>
      *   $metric = 'key1'
      * </code>

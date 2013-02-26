@@ -82,6 +82,12 @@ class LibratoTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testCount() {
+        $expected = "{\"counters\":{\"key\":{\"value\":1000}}}";
+        $this->client->count('key', 1000);
+        $this->assertEquals($expected, $this->mockHttpClient->body);
+    }
+
     public function testGauge() {
         $expected = "{\"gauges\":{\"key\":{\"value\":10}}}";
         $this->client->gauge('key', 10);
