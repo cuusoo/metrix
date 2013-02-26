@@ -19,6 +19,18 @@ Librato
           )
     ));
 
+StatsD
+------
+
+    $client = new Metrix();
+    $client->config(array(
+        'backend' => 'statsd',
+        'opts' => array(
+          'host' => '1.1.1.1',
+          'port' => 8125
+        )
+    ))
+
 Sending Metrics
 ===============
 
