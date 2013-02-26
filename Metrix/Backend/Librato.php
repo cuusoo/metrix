@@ -41,7 +41,11 @@ class Librato implements \Metrix\BackendInterface {
         ));
     }
 
-    //
+    public function setHttpClient($httpClient) {
+        $this->httpClient = $httpClient;
+    }
+
+    ////
     // Start BackendInterface
     //
 
@@ -63,13 +67,8 @@ class Librato implements \Metrix\BackendInterface {
         return $this->post($json);
     }
 
-    //
-    // End BackendInterface
-    //
-
-    public function setHttpClient($httpClient) {
-        $this->httpClient = $httpClient;
-    }
+    ////
+    // Private Methods
 
     private function post($body) {
         try {
@@ -82,7 +81,6 @@ class Librato implements \Metrix\BackendInterface {
 
         return $response->getStatus() == 200;
     }
-
 
     private function prepareJSON($type, $metrics) {
         $data = array();
