@@ -28,4 +28,10 @@ class MetrixTest extends PHPUnit_Framework_TestCase {
         $this->client->config($this->conf);
         $this->assertTrue($this->client->getBackend() instanceOf \Metrix\Backend\Librato);
     }
+
+    public function testSetPrefix() {
+        $c = new Metrix($this->conf);
+        $c->setPrefix('foo');
+        $this->assertEquals('foo', $c->getPrefix());
+    }
 }

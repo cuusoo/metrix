@@ -93,6 +93,22 @@ class Metrix {
     }
 
     /**
+     * Set prefix for key
+     *
+     * @param string $prefix
+     */
+    public function setPrefix($prefix) {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * Accessor method for $prefix
+     */
+    public function getPrefix() {
+        return $this->prefix;
+    }
+
+    /**
      * Prefixes keys in a hash with given $prefix
      *
      * @param array $metrics hash containing metric key,value pairs
