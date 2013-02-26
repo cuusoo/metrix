@@ -20,10 +20,12 @@ class MetrixTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSetConfigThroughConstructor() {
-        new Metrix($this->conf);
+        $c = new Metrix($this->conf);
+        $this->assertTrue($c->getBackend() instanceOf \Metrix\Backend\Librato);
     }
 
     public function testSetConfig() {
         $this->client->config($this->conf);
+        $this->assertTrue($this->client->getBackend() instanceOf \Metrix\Backend\Librato);
     }
 }
