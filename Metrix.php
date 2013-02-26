@@ -51,19 +51,26 @@ class Metrix {
     /**
      * @param array $metrics
      */
-    public function count(array $metrics) {
+    public function increment($metrics, $delta = 1) {
         $prefixed = $this->prefixKeyNames($metrics, $this->prefix);
-        $this->backend->count($prefixed);
+        $this->backend->increment($prefixed, $delta);
     }
 
     /**
      * @param array $metrics
      */
-    public function gauge(array $metrics) {
+    public function decrement($metrics, $delta = 1) {
         $prefixed = $this->prefixKeyNames($metrics, $this->prefix);
-        $this->backend->gauge($prefixed);
+        $this->backend->decrement($prefixed, $delta);
     }
 
+    /**
+     * @param array $metrics
+     */
+    public function gauge($metric, $value) {
+        $prefixed = $this->prefixKeyNames($metric, $this->prefix);
+        $this->backend->gauge($prefixed, $value);
+    }
 
     /**
      * Accessor method for $backend
