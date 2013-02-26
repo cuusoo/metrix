@@ -46,8 +46,7 @@ class Librato implements \Metrix\BackendInterface {
     //
 
     public function increment($metrics, $delta = 1) {
-        $json = $this->prepareJSON('counters', $metrics, $delta);
-        return $this->post($json);
+        throw new \RuntimeException("Librato only supports absolute counters");
     }
 
     public function decrement($metrics, $delta = 1) {

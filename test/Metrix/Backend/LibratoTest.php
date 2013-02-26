@@ -62,15 +62,12 @@ class LibratoTest extends PHPUnit_Framework_TestCase {
     //
 
     public function testIncrement() {
-        // passing a single key
-        $expected = "{\"counters\":{\"key\":{\"value\":1}}}";
-        $this->client->increment('key');
-        $this->assertEquals($expected, $this->mockHttpClient->body);
-
-        // passing multiple keys
-        $expected = '{"counters":{"key1":{"value":1},"key2":{"value":1}}}';
-        $this->client->increment(array('key1', 'key2'));
-        $this->assertEquals($expected, $this->mockHttpClient->body);
+        $expected = "Librato only supports absolute counters";
+        try {
+            $this->client->increment('key');
+        } catch (Exception $e) {
+            $this->assertEquals($expected, $e->getMessage());
+        }
     }
 
     public function testDecrement() {
