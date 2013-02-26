@@ -34,17 +34,17 @@ class Metrix {
      *   array opts options to pass backend
      *   string prefix key prefix to attach to individual keys before reporting
      */
-    public function config(array $conf) {
-        $options = $conf['opts'];
-        $class = "Metrix\\Backend\\" . ucfirst($conf['backend']);
+    public function config(array $config) {
+        $options = $config['opts'];
+        $class = "Metrix\\Backend\\" . ucfirst($config['backend']);
 
-        if (isset($conf['prefix']))
-            $this->prefix = $conf['prefix'];
+        if (isset($config['prefix']))
+            $this->prefix = $config['prefix'];
 
         if (class_exists($class)) {
             $this->backend = new $class($options);
         } else {
-            throw new Exception("Backend `" . $conf['backend'] . "` doesn't exist");
+            throw new Exception("Backend `" . $config['backend'] . "` doesn't exist");
         }
     }
 
