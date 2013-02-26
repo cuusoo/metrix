@@ -49,11 +49,11 @@ class Librato implements \Metrix\BackendInterface {
     // Start BackendInterface
     //
 
-    public function increment($metrics, $delta = 1) {
+    public function increment($metrics) {
         throw new \RuntimeException("Librato only supports absolute counters");
     }
 
-    public function decrement($metrics, $delta = 1) {
+    public function decrement($metrics) {
         throw new \RuntimeException("Librato only supports absolute counters");
     }
 

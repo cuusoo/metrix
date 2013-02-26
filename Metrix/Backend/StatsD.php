@@ -24,10 +24,10 @@ class StatsD implements \Metrix\BackendInterface {
     public function decrement($metrics) {
     }
 
-    public function count($metric, $value) {
+    public function count($metric) {
     }
 
-    public function gauge($metric, $value) {
+    public function gauge($metric) {
     }
 
     ////
