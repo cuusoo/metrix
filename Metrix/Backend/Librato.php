@@ -57,6 +57,10 @@ class Librato implements \Metrix\BackendInterface {
         return $this->post($json);
     }
 
+    public function setHttpClient($httpClient) {
+        $this->httpClient = $httpClient;
+    }
+
     private function post($body) {
         try {
             $this->httpClient->setMethod(HTTPClient::METHOD_POST);

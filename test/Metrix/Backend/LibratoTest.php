@@ -3,10 +3,11 @@ require_once realpath(__DIR__.'/../../../Metrix.php');
 
 class LibratoTest extends PHPUnit_Framework_TestCase {
     protected $client;
+    protected $mockHttpClient;
 
     public function setUp() {
-        $this->client = new Metrix;
-        $this->client->config(array(
+        // Setup Librato Instance
+        $this->client = new Metrix(array(
             'backend' => 'librato',
             'opts' => array(
                 'email' => '123',
@@ -17,6 +18,14 @@ class LibratoTest extends PHPUnit_Framework_TestCase {
 
     public function tearDown() {
         unset($this->client);
+    }
+
+    public function testReturnsErrorOnBadHTTPCode() {
+        $mock = $this->getMock("\HTTP_Request2");
+        $mock->expects($this->any())
+             ->method('send')
+             ->will($this->returnValue(''));
+        $this->client->getBackend()->setHttpClient($mock);
     }
 
     public function testMissingEmailParam() {

@@ -64,6 +64,14 @@ class Metrix {
         $this->backend->gauge($prefixed);
     }
 
+
+    /**
+     * Accessor method for $backend
+     */
+    public function getBackend() {
+        return $this->backend;
+    }
+
     /**
      * Prefixes keys in a hash with given $prefix
      *
