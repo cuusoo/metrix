@@ -73,6 +73,13 @@ class Metrix {
     }
 
     /**
+     * Setter method for $backend
+     */
+    public function setBackend(BackendInterface $backend) {
+        $this->backend = $backend;
+    }
+
+    /**
      * Prefixes keys in a hash with given $prefix
      *
      * @param array $metrics hash containing metric key,value pairs
