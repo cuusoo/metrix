@@ -49,33 +49,43 @@ class Metrix {
     }
 
     /**
-     * @param array $metrics
+     * @param array|string $metrics
+     * @param integer $delta
      */
-    public function increment($metrics, $delta = 1) {
-        $prefixed = $this->prefixKeyNames($metrics, $this->prefix);
-        $this->backend->increment($prefixed, $delta);
+    public function increment($metrics, $value = 1) {
+        $normalized = $this->normalize($metrics);
+        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $this->backend->increment($prefixed);
     }
 
     /**
-     * @param array $metrics
+     * @param array|string $metrics
+     * @param integer $delta
      */
-    public function decrement($metrics, $delta = 1) {
-        $prefixed = $this->prefixKeyNames($metrics, $this->prefix);
-        $this->backend->decrement($prefixed, $delta);
+    public function decrement($metrics, $value = 1) {
+        $normalized = $this->normalize($metrics);
+        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $this->backend->decrement($prefixed);
+    }
+
+    /**
+     * @param array|string $metric
+     * @param integer $value
+     */
+    public function count($metrics, $value = null) {
+        $normalized = $this->normalize($metrics, $value);
+        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $this->backend->count($prefixed);
     }
 
     /**
      * @param string $metric
      * @param integer $value
      */
-    public function count($metric, $value) {
-        $prefixed = $this->prefixKeyNames($metric, $this->prefix);
-        $this->backend->count($prefixed);
-    }
-     */
-    public function gauge($metric, $value) {
-        $prefixed = $this->prefixKeyNames($metric, $this->prefix);
-        $this->backend->gauge($prefixed, $value);
+    public function gauge($metrics, $value = null) {
+        $normalized = $this->normalize($metrics, $value);
+        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $this->backend->gauge($prefixed);
     }
 
     /**
@@ -108,11 +118,39 @@ class Metrix {
         return $this->prefix;
     }
 
+    ////
+    // Private Methods
+
+    /**
+     * Normalize Parameters
+     *
+     * Changes
+     *   array('key1', ...)
+     *   array('key1' => 1, ...)
+     *   'key1'
+     *
+     * To this
+     *   array('key1' => 1, ...)
+     */
+    private function normalize($metrics, $value = 1) {
+        if (is_string($metrics)) {
+            return array($metrics => $value);
+        }
+
+        // Check if $metrics is an associative array
+        if ( array_keys($metric) !== range(0, count($metrics) - 1) ) {
+            return $metrics;
+        }
+
+        $normalized = array();
+        foreach ($metrics as $metric) {
+            $normalized[$metric] = $value;
+        }
+        return $normalized;
+    }
+
     /**
      * Prefixes keys in a hash with given $prefix
-     *
-     * @param array $metrics hash containing metric key,value pairs
-     * @param string $prefix string to prefix key names with
      */
     private function prefixKeyNames($metrics, $prefix) {
         if ($prefix == null)

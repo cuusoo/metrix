@@ -53,13 +53,13 @@ class Librato implements \Metrix\BackendInterface {
         throw new \RuntimeException("Librato only supports absolute counters");
     }
 
-    public function count($metric, $value) {
-        $json = $this->prepareJSON('counters', $metric, $value);
+    public function count($metrics) {
+        $json = $this->prepareJSON('counters', $metrics);
         return $this->post($json);
     }
 
-    public function gauge($metric, $value) {
-        $json = $this->prepareJSON('gauges', $metric, $value);
+    public function gauge($metrics) {
+        $json = $this->prepareJSON('gauges', $metrics);
         return $this->post($json);
     }
 
@@ -83,18 +83,15 @@ class Librato implements \Metrix\BackendInterface {
         return $response->getStatus() == 200;
     }
 
-    private function prepareJSON($type, $keys, $value) {
-        if (!is_array($keys)) {
-            $keys = array($keys);
+
+    private function prepareJSON($type, $metrics) {
+        $data = array();
+
+        foreach($metrics as $key => $value) {
+            $data[$key] = array('value' => $value);
         }
 
-        $metrics = array();
-
-        foreach($keys as $key) {
-            $metrics[$key] = array('value' => $value);
-        }
-
-        $toEncode = array($type => $metrics);
+        $toEncode = array($type => $data);
         return json_encode($toEncode);
     }
 }
