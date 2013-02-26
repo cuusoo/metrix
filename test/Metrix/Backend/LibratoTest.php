@@ -47,4 +47,3 @@ class LibratoTest extends PHPUnit_Framework_TestCase {
         }
     }
 }
-?>

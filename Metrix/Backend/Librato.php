@@ -80,4 +80,3 @@ class Librato implements \Metrix\BackendInterface {
         return json_encode($toEncode);
     }
 }
-?>

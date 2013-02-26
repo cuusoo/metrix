@@ -26,4 +26,3 @@ interface BackendInterface {
 }
 
 require_once realpath(__DIR__.'/Backend/Librato.php');
-?>

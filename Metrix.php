@@ -82,4 +82,3 @@ class Metrix {
         return $prefixed;
     }
 }
-?>
