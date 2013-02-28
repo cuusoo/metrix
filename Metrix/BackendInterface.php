@@ -67,6 +67,10 @@ interface BackendInterface {
      * @param integer $value
      */
     public function gauge($metrics);
+
+    public function setConnection(Connection $conn);
+
+    public function getConnection();
 }
 
 require_once realpath(__DIR__.'/Backend/Librato.php');

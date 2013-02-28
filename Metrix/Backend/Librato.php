@@ -1,20 +1,16 @@
 <?php
 namespace Metrix\Backend;
 
-require_once 'HTTP/Request2.php';
-
 use \Metrix\Exception;
-use \HTTP_Request2 as HTTPClient;
-use \HTTP_Request2_Response as HttpResponse;
-use \HTTP_Request2_Exception as HttpException;
+use \Metrix\Connection;
 
 class Librato implements \Metrix\BackendInterface {
     const API_ENDPOINT = 'https://metrics-api.librato.com/v1/metrics';
 
     /**
-     * HTTP Client Object
+     * Connection Object
      */
-    protected $httpClient;
+    protected $conn;
 
     /**
      * @param array $options hash of standard options for librato backend:
@@ -32,22 +28,22 @@ class Librato implements \Metrix\BackendInterface {
         $email= $options['email'];
         $token = $options['token'];
 
-        $this->httpClient = new HTTPClient(self::API_ENDPOINT);
-        $this->httpClient->setAuth($email, $token, HTTPClient::AUTH_BASIC);
-        $this->httpClient->setHeader(array(
-            'User-Agent' => \Metrix\Version::NAME . " version " .\Metrix\Version::NUMBER,
-            'Content-Type' => 'application/json',
-            'Connection' => 'keep-alive'
-        ));
-    }
-
-    public function setHttpClient($httpClient) {
-        $this->httpClient = $httpClient;
+        $this->conn = new \Metrix\Connection\HTTPClient(self::API_ENDPOINT, $email, $token);
     }
 
     ////
-    // Start BackendInterface
-    //
+    // Accessors / Setters
+
+    public function setConnection(Connection $conn) {
+        $this->conn = $conn;
+    }
+
+    public function getConnection() {
+        return $this->conn;
+    }
+
+    ////
+    // BackendInterface
 
     public function increment($metrics) {
         throw new \RuntimeException("Librato only supports absolute counters");
@@ -59,28 +55,16 @@ class Librato implements \Metrix\BackendInterface {
 
     public function count($metrics) {
         $json = $this->prepareJSON('counters', $metrics);
-        return $this->post($json);
+        return $this->conn->send($json);
     }
 
     public function gauge($metrics) {
         $json = $this->prepareJSON('gauges', $metrics);
-        return $this->post($json);
+        return $this->conn->send($json);
     }
 
     ////
     // Private Methods
-
-    private function post($body) {
-        try {
-            $this->httpClient->setMethod(HTTPClient::METHOD_POST);
-            $this->httpClient->setBody($body);
-            $response = $this->httpClient->send();
-        } catch (HttpException $e) {
-            throw new Exception("HTTP error: " . $e->getMessage());
-        }
-
-        return $response->getStatus() == 200;
-    }
 
     private function prepareJSON($type, $metrics) {
         $data = array();

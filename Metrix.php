@@ -1,6 +1,7 @@
 <?php
 require_once realpath(__DIR__.'/Metrix/Version.php');
 require_once realpath(__DIR__.'/Metrix/Exception.php');
+require_once realpath(__DIR__.'/Metrix/ConnectionInterface.php');
 require_once realpath(__DIR__.'/Metrix/BackendInterface.php');
 
 use \Metrix\Exception;
@@ -138,7 +139,7 @@ class Metrix {
         }
 
         // Check if $metrics is an associative array
-        if ( array_keys($metric) !== range(0, count($metrics) - 1) ) {
+        if ( array_keys($metrics) !== range(0, count($metrics) - 1) ) {
             return $metrics;
         }
 
