@@ -20,9 +20,6 @@ class HTTPClient implements \Metrix\Connection {
     }
 
     public function send($message, $options = null) {
-        $this->httpClient->setMethod(\HTTPClient::METHOD_POST);
-        $this->httpClient->setBody($message);
-
         try {
             $this->httpClient->setMethod(\HTTP_Request2::METHOD_POST);
             $this->httpClient->setBody($body);
