@@ -1,8 +1,11 @@
 <?php
 namespace Metrix\Backend;
 
+use \Metrix\Connection;
+
 class StatsD implements \Metrix\BackendInterface {
     protected $options;
+    protected $conn;
 
     public function __construct(array $options) {
         if (!isset($options['port']) || empty($options['port'])) {
@@ -12,6 +15,18 @@ class StatsD implements \Metrix\BackendInterface {
             $options['host'] = '127.0.0.1';
         }
         $this->options = $options;
+        $this->conn = new \Metrix\Connection\UDPSocket($options['host'], $options['port']);
+    }
+
+    ////
+    // Accessor/Setters
+
+    public function setConnection(Connection $conn) {
+        $this->conn = $conn;
+    }
+
+    public function getConnection() {
+        return $this->conn;
     }
 
     ////
@@ -19,41 +34,48 @@ class StatsD implements \Metrix\BackendInterface {
     //
 
     public function increment($metrics) {
+        $packet = $this->buildPacket($metrics, 'c');
+        $this->send($packet);
     }
 
     public function decrement($metrics) {
+        $map = array();
+        foreach ($metrics as $key => $value) {
+            $map[$key] = -1*$value;
+        }
+        $packet = $this->buildPacket($map, 'c');
+        $this->send($packet);
     }
 
-    public function count($metric) {
+    public function count($metrics) {
+        $packet = $this->buildPacket($metrics, 'c');
+        $this->send($packet);
     }
 
-    public function gauge($metric) {
+    public function gauge($metrics) {
+        $packet = $this->buildPacket($metrics, 'g');
+        $this->send($packet);
     }
 
     ////
     // Private Methods
 
-    private function update() {
-    }
+    private function buildPacket($metrics, $type) {
+        // StatsD allows you to concatenate operations
+        // eg. gorets:1|c\nbucket:1|c
+        $packet = '';
 
-    private function send(array $data) {
-        try {
-            $host = $this->options['host'];
-            $port = $this->optoins['port'];
-
-            $fp = fsockopen("udp://$host", $port, $errno, $errstr);
-
-            if (!$fp) { return false; }
-
-            foreach ($data as $bucket => $value) {
-                fwrite($fp, "$bucket:$value");
+        foreach ($metrics as $key => $amount) {
+            if ($packet != '') {
+                $packet .= "\n";
             }
-            fclose($fp);
-        } catch (Exception $e) {
-            return false;
+            $packet .= "$key:$amount|$type";
         }
-        return true;
+
+        return $packet;
     }
 
-
+    private function send($packet) {
+        return $this->conn->send($packet);
+    }
 }
