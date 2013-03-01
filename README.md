@@ -7,8 +7,7 @@ data to a number of services. Currently Metrix supports StatsD and Librato.
 Configuration
 =============
 
-Librato
--------
+Librato:
 
     $client = new Metrix();
     $client->config(array(
@@ -19,8 +18,7 @@ Librato
         )
     ));
 
-StatsD
-------
+StatsD:
 
     $client = new Metrix();
     $client->config(array(
