@@ -50,7 +50,7 @@ class StatsDTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $this->mockConnection->getLastMessage());
     }
 
-    public function testGuage() {
+    public function testGauge() {
         $expected = "key:20|g";
         $this->client->gauge('key', 20);
         $this->assertEquals($expected, $this->mockConnection->getLastMessage());

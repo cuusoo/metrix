@@ -46,7 +46,7 @@ Counters
 Gauges
 ======
 
-    $client->guage('cputemp', 55);
+    $client->gauge('cputemp', 55);
 
 TODO
 ====
