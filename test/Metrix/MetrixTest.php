@@ -1,18 +1,25 @@
 <?php
 require_once realpath(__DIR__.'/../../Metrix.php');
+require_once realpath(__DIR__.'/MockBackend.php');
 
 class MetrixTest extends PHPUnit_Framework_TestCase {
     protected $client;
+    protected $mockBackend;
+
     protected $conf = array(
         'backend' => 'librato',
+        'prefix' => 'test',
         'opts' => array(
             'email' => '123',
             'token' => '123'
-        )
+        ),
+
     );
 
     public function setUp() {
         $this->client = new Metrix;
+        $this->mockBackend = new MockBackend();
+        $this->client->setBackend($this->mockBackend);
     }
 
     public function tearDown() {
@@ -37,9 +44,12 @@ class MetrixTest extends PHPUnit_Framework_TestCase {
         $this->client->config(array( 'backend' => 'statsd' ));
     }
 
-    public function testSetPrefix() {
-        $c = new Metrix($this->conf);
-        $c->setPrefix('foo');
-        $this->assertEquals('foo', $c->getPrefix());
+    public function testKeyPrefix() {
+        $this->client->setPrefix('foo');
+        $this->assertEquals('foo', $this->client->getPrefix());
+
+        $this->client->increment('key');
+        $expected = $this->client->getBackend()->getLastMessage();
+        $this->assertEquals($expected, array( 'foo.key' => 1 ));
     }
 }

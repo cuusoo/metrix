@@ -48,6 +48,17 @@ Gauges
 
     $client->gauge('cputemp', 55);
 
+Other Options
+=============
+
+Custom key prefixes (prefix\_delimeter defaults to '.'):
+
+    $client->config(array('
+      'prefix' => 'foo',
+      'prefix_delimeter' => ':',
+      ...
+    ));
+
 TODO
 ====
 

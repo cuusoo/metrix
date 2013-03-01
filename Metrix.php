@@ -5,6 +5,7 @@ require_once realpath(__DIR__.'/Metrix/ConnectionInterface.php');
 require_once realpath(__DIR__.'/Metrix/BackendInterface.php');
 
 use \Metrix\Exception;
+use \Metrix\BackendInterface;
 
 class Metrix {
     /**
@@ -16,6 +17,11 @@ class Metrix {
      * Prefix to add to key names
      */
     protected $prefix;
+
+    /**
+     * Delimiter used when attaching $prefix
+     */
+    protected $delimeter = ".";
 
     /**
      * @param array $conf configuration hash:
@@ -39,8 +45,10 @@ class Metrix {
         $options = (isset($config['opts']) ? $config['opts'] : array());
         $class = "Metrix\\Backend\\" . ucfirst($config['backend']);
 
-        if (isset($config['prefix']))
+        if (isset($config['prefix'])) {
             $this->prefix = $config['prefix'];
+            $this->delimeter = ((isset($config['prefix_delimeter'])) ? $config['prefix_delimeter'] : ".");
+        }
 
         if (class_exists($class)) {
             $this->backend = new $class($options);
@@ -55,7 +63,7 @@ class Metrix {
      */
     public function increment($metrics, $value = 1) {
         $normalized = $this->normalize($metrics);
-        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $prefixed = $this->prefixKeyNames($normalized);
         $this->backend->increment($prefixed);
     }
 
@@ -65,7 +73,7 @@ class Metrix {
      */
     public function decrement($metrics, $value = 1) {
         $normalized = $this->normalize($metrics);
-        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $prefixed = $this->prefixKeyNames($normalized);
         $this->backend->decrement($prefixed);
     }
 
@@ -75,7 +83,7 @@ class Metrix {
      */
     public function count($metrics, $value = null) {
         $normalized = $this->normalize($metrics, $value);
-        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $prefixed = $this->prefixKeyNames($normalized);
         $this->backend->count($prefixed);
     }
 
@@ -85,7 +93,7 @@ class Metrix {
      */
     public function gauge($metrics, $value = null) {
         $normalized = $this->normalize($metrics, $value);
-        $prefixed = $this->prefixKeyNames($normalized, $this->prefix);
+        $prefixed = $this->prefixKeyNames($normalized);
         $this->backend->gauge($prefixed);
     }
 
@@ -153,13 +161,13 @@ class Metrix {
     /**
      * Prefixes keys in a hash with given $prefix
      */
-    private function prefixKeyNames($metrics, $prefix) {
-        if ($prefix == null)
+    private function prefixKeyNames($metrics) {
+        if ($this->prefix == null)
             return $metrics;
 
         $prefixed = array();
         foreach($metrics as $key => $value) {
-            $prefixed[$prefix . $key] = $value;
+            $prefixed[$this->prefix . $this->delimeter . $key] = $value;
         }
 
         return $prefixed;
