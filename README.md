@@ -2,7 +2,7 @@ Metrix PHP Library
 ==================
 
 Metrix is a PHP library that provides a simple interface for sending metric
-data to a number of services.
+data to a number of services. Currently Metrix supports StatsD and Librato.
 
 Configuration
 =============
@@ -16,7 +16,7 @@ Librato
         'opts' => array(
           'email' => 'test@user.com',
           'token' => '123'
-          )
+        )
     ));
 
 StatsD
@@ -26,31 +26,27 @@ StatsD
     $client->config(array(
         'backend' => 'statsd',
         'opts' => array(
-          'host' => '1.1.1.1',
-          'port' => 8125
+          'host' => '127.0.0.1', // defaults to this
+          'port' => '8125' // defaults to this
         )
-    ))
+    ));
 
-Sending Metrics
-===============
+Counters
+========
 
-    require 'Metrix.php';
-    use Metrix;
+    $client->increment('key', 10);
+    $client->increment(array('key1', 'key2', ...));
+    $client->increment(array(
+      'key' => 1
+    ));
 
-    $client = new Metrix();
-    $client->config(...);
+    $client->decrement('key', 10);
+    ...
 
-    $client->count(
-        'key1-counter' => 1,
-        'key2-counter' => 1,
-        ...
-    );
+Gauges
+======
 
-    $client->gauge(
-        'key1-gauge' => 1.2,
-        'key2-gauge' => 5.0
-        ...
-    );
+    $client->guage('cputemp', 55);
 
 TODO
 ====
