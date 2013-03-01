@@ -7,7 +7,7 @@ class StatsD implements \Metrix\BackendInterface {
     protected $options;
     protected $conn;
 
-    public function __construct(array $options) {
+    public function __construct($options = array()) {
         if (!isset($options['port']) || empty($options['port'])) {
             $options['port'] = 8125;
         }
