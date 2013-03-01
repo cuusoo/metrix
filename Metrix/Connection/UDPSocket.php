@@ -11,7 +11,7 @@ class UDPSocket implements \Metrix\Connection {
 
     public function send($message, $options = null) {
         $fp = fsockopen("udp://$this->host", $this->port, $errno, $errstr);
-        fwrite($fp, $packet);
+        fwrite($fp, $message);
         fclose($fp);
 
         return true;
