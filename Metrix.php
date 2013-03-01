@@ -36,7 +36,7 @@ class Metrix {
      *   string prefix key prefix to attach to individual keys before reporting
      */
     public function config(array $config) {
-        $options = $config['opts'];
+        $options = (isset($config['opts']) ? $config['opts'] : array());
         $class = "Metrix\\Backend\\" . ucfirst($config['backend']);
 
         if (isset($config['prefix']))

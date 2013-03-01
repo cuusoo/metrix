@@ -29,6 +29,14 @@ class MetrixTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->client->getBackend() instanceOf \Metrix\Backend\Librato);
     }
 
+    // Users should be able to pass no options and let
+    // the backend decide how to default parameters
+    public function testNoPassOptions() {
+        // doesn't test anything right now, simply runs code right
+        // now to test if its working
+        $this->client->config(array( 'backend' => 'statsd' ));
+    }
+
     public function testSetPrefix() {
         $c = new Metrix($this->conf);
         $c->setPrefix('foo');
