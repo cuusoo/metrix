@@ -4,6 +4,8 @@ Metrix PHP Library
 Metrix is a PHP library that provides a simple interface for sending metric
 data to a number of services. Currently Metrix supports StatsD and Librato.
 
+[![Build Status](https://secure.travis-ci.org/cuusoo/metrix.png?branch=master)](http://travis-ci.org/cuusoo/metrix)
+
 Configuration
 =============
 
